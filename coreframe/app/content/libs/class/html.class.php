@@ -97,7 +97,10 @@ class WUZHI_html {
         $GLOBALS['catdir'] = $this->category['catdir'];
         $GLOBALS['categorydir'] = $this->category['parentdir'];
 
-
+        if($data['modelid']) {
+            $this->form_format->modelid = $data['modelid'];
+            $this->form_format->fields = get_cache('field_'.$data['modelid'],'model');
+        }
         $format_data = $this->form_format->execute($data);
         foreach($format_data as $_key=>$_value) {
             $$_key = $_value['data'];

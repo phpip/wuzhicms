@@ -26,8 +26,6 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended userullist" id="userullist">
-                        <div class="log-arrow-up"><i class="icon-sort-up"></i></div>
-                        <li class="usersettitle"><h5>个人信息</h5></li>
                         <li><a href="javascript:void(1);">本次登陆IP:<?php echo $ip;?></a></li>
                         <li><a href="javascript:void(1);">上次登陆IP:<?php echo $last_rs['ip'];?></a></li>
                         <li><a href="javascript:void(1);">上次登陆时间:<?php echo time_format($last_rs['logintime']);?></a></li>
@@ -85,8 +83,7 @@
 </section>
 
 <script src="<?php echo R;?>js/bootstrap.min.js"></script>
-<script src="<?php echo R;?>js/jquery.nicescroll.js" type="text/javascript"></script>
-<script src="<?php echo R;?>js/pxgrids-scripts.js"></script>
+<script src="<?php echo R;?>js/wuzhicms.js"></script>
 
 <style type="text/css">
     .validate-has-error {border-color: #EC7876;box-shadow: 0 0 0 2px rgba(236, 89, 86, 0.35);border: #EC7876 1px dotted;}
@@ -247,7 +244,11 @@
             }
         });
     }
-setTimeout("checknew_version()",10000);
+    setTimeout("checknew_version()",10000);
+    function keep_alive() {
+        $.get("?m=core&f=index&v=keep_alive<?php echo $this->su();?>");
+    }
+    setInterval("keep_alive()",100000);
 </script>
 
 

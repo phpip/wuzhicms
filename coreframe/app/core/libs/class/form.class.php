@@ -122,6 +122,7 @@ class WUZHI_form {
 	 */
 	public static function attachment($ext = 'png|jpg|gif|doc|docx', $limit = 1, $formname = 'file', $default_val = '' ,$callback = 'callback_thumb_dialog', $is_thumb = 0, $width = '', $height = '',$cut = 0)
 	{
+        if($ext=='') $ext = 'png|jpg|gif|doc|docx';
         $id = preg_match("/\[(.*)\]/", $formname, $m) ? $m[1] : $formname;
 		$str = '';
 		if(!defined('PUPLOAD_INIT')) 	
@@ -185,7 +186,14 @@ class WUZHI_form {
 
 	//树形下拉选择
 	public static function tree_select($options = array(), $value = 0, $str = '', $default_option = '',$disableid = 0) {
-		if(!is_array($options) || count($options) == 0) return '';
+		if(!is_array($options)) return '';
+        if(empty($options)) {
+            $string = '<select '.$str.'>';
+            $default_selected = (empty($value) && $default_option) ? 'selected' : '';
+            if($default_option) $string .= "<option value='' $default_selected>$default_option</option>";
+            $string .= '</select>';
+            return $string;
+        }
         if($value) {
             $options[$value]['selected'] = 'selected';
         }
@@ -202,10 +210,9 @@ class WUZHI_form {
 		$string = '<select '.$str.'>';
 		$default_selected = (empty($value) && $default_option) ? 'selected' : '';
 		if($default_option) $string .= "<option value='' $default_selected>$default_option</option>";
-
-		$tree = load_class('tree','core',$options);
-		$str = "<option value=\$id \$selected \$disable>\$spacer\$name</option>";
-		$string .= $tree->create(0,$str);
+        $tree = load_class('tree','core',$options);
+        $str = "<option value=\$id \$selected \$disable>\$spacer\$name</option>";
+        $string .= $tree->create(0,$str);
 		$string .= '</select>';
 		return $string;
 	}
